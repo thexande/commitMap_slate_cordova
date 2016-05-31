@@ -15,7 +15,7 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
-// Gray & colors from the slate variables 
+// Gray & colors from the slate variables
 $gray-base:              #000 !default;
 $gray-darker:            #272B30 !default; // #222
 $gray-dark:              #3A3F44 !default;   // #333
@@ -36,7 +36,7 @@ $primary: $gray-light;
 $calm: $brand-info;
 $balanced: $brand-success;
 $energized: $brand-warning;
-$assertive: $brand-danger; 
+$assertive: $brand-danger;
 
 $base-background-color: $gray-darker !default;
 $base-color:  #C8C8C8 !default;
@@ -58,7 +58,7 @@ $button-energized-border:        rgba(0,0,0,0.6) !default;
 $button-assertive-border:        rgba(0,0,0,0.6) !default;
 
 
-// toggles 
+// toggles
 $toggle-off-bg-color:            $gray-light;
 $toggle-off-border-color:        rgba(0,0,0,0) !default;
 
@@ -99,5 +99,4 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 
 // Include all of Ionic
-@import "../www/lib/ionic/scss/ionic";
-
+@import "../www/lib/ionic/scss/ionic.scss";

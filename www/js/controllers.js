@@ -28,20 +28,41 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('loginCtrl', function($scope, $http, $state){
+.controller('loginCtrl', function($scope, $http, $state) {
   $scope.loginData = {}
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
     // authenticate with local passport strategy
-    $http.post('http://localhost:3000/localAuth', $scope.loginData)
-      .success(function(data) {
-        console.log(data);
-        $state.go('tab.dash')
+    // $http.post('http://localhost:3000/localAuth', $scope.loginData)
+    //   .success(function(data) {
+    //     console.log(data);
+    //     $state.go('tab.dash')
+    //
+    //   })
+    //   .error(function(data) {
+    //     console.log('error' + data);
+    //   })
 
+    $state.go('repolist')
+    }
+})
+
+// repo listing controller
+  .controller('repoListCtrl', function($scope, $http, $state) {
+    $scope.reposSelected = {}
+    // go to github API and get list of repos
+    $http.get('https://api.github.com/users/thexande/repos')
+      .success(function(data){
+        console.log(data)
+        $scope.repoList = data;
       })
       .error(function(data) {
         console.log('error' + data);
       })
-    }
-});
+      // get list of repos from form
+      $scope.selectReposToWatch = function() {
+        console.log($scope.formData)
+        $state.go('tab.dash')
+      }
+  });

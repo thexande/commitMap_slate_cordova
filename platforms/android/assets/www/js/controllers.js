@@ -25,4 +25,23 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+})
+
+
+.controller('loginCtrl', function($scope, $http, $state){
+  $scope.loginData = {}
+  // Perform the login action when the user submits the login form
+  $scope.doLogin = function() {
+    console.log('Doing login', $scope.loginData);
+    // authenticate with local passport strategy
+    $http.post('http://localhost:3000/localAuth', $scope.loginData)
+      .success(function(data) {
+        console.log(data);
+        $state.go('tab.dash')
+
+      })
+      .error(function(data) {
+        console.log('error' + data);
+      })
+    }
 });

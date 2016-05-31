@@ -1,0 +1,17 @@
+<ion-view view-title="Select Repos" name="repo-select">
+<ion-nav-buttons side="right">
+    <button class="button button-balanced" ng-click="selectReposToWatch()">
+      Continue
+    </button>
+ </ion-nav-buttons>
+
+    <ion-content>
+      <div class="list">
+      <form ng-submit="selectReposToWatch()">
+        <ion-checkbox ng-repeat="item in repoList" ng-model="item.id" value="item.id">
+          {{ item.name }}
+        </ion-checkbox>
+      </form>
+      </div>
+    </ion-content>
+</ion-view>
