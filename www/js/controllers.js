@@ -63,7 +63,12 @@ angular.module('starter.controllers', [])
       })
 // my Repos controller
 .controller('myReposCtrl', function($scope, $http, $state, reposFactory) {
-  console.log("woot");
+  $scope.selectedRepos = reposFactory.selectedRepos
+  console.log($scope.selectedRepos);
+})
+// myRepos detail controller
+.controller('myReposDetailCtrl', function($scope, $http, $state, reposFactory){
+  console.log("detail ctrl");
 })
 // repo listing controller
 .controller('repoListCtrl', function($scope, $http, $state, reposFactory) {
@@ -90,8 +95,6 @@ angular.module('starter.controllers', [])
             }
           }
         }
-        console.log($scope.reposSelected);
-
         // set data in factory.
         reposFactory.prepareForRepoView($scope.reposSelected);
         $state.go('tab.myrepos')

@@ -81,6 +81,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+  .state('myrepos-detail', {
+    url: '/myrepos/:repoId',
+    views: {
+      'tab-myreposdetail' : {
+        templateUrl: 'templates/myrepos-detail.html',
+        controller: 'myReposDetailCtrl'
+      }
+    }
+  })
   .state('tab.account', {
     url: '/account',
     views: {

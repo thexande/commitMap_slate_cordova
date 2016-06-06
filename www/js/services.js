@@ -63,7 +63,6 @@ angular.module('starter.services', [])
     },
     prepareForRepoView : function(reposSelected) {
       this.selectedRepos = reposSelected;
-      console.log(this.selectedRepos);
     }
   }
 });
