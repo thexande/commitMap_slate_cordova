@@ -47,4 +47,23 @@ angular.module('starter.services', [])
       return null;
     }
   };
+})
+
+.factory('reposFactory', function($http){
+  return {
+    selectedRepos : [],
+    getReposFromGitHub : function() {
+        return $http.get('https://api.github.com/users/thexande/repos')
+    },
+    removeFromWatch : function(repo_id){
+      // logic to query backend and remove web hook for passed repo
+    },
+    addToWatch : function(repo_id){
+      // logic to query commitmap backend and add webhook for passed repo
+    },
+    prepareForRepoView : function(reposSelected) {
+      this.selectedRepos = reposSelected;
+      console.log(this.selectedRepos);
+    }
+  }
 });

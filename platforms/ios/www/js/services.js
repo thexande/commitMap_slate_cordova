@@ -47,4 +47,8 @@ angular.module('starter.services', [])
       return null;
     }
   };
+})
+
+.factory('repos', function(){
+
 });

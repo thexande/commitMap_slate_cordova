@@ -1,10 +1,15 @@
-<ion-view view-title="Account">
+<ion-view view-title="commitMap Account Settings">
   <ion-content>
     <ion-list>
       <ion-toggle ng-model="settings.enableFriends">
         Enable Location Access
       </ion-toggle>
       <ion-item>Stuff1</ion-item>
+
+      <div class="item">
+        <button class="button button-light" ng-click="getCurrentLocation()"> Show Location </button>
+      </div>
+
       <div class="item item-divider"> Item with icon </div>
       <a class="item item-icon-right"> 2: Awareness <i class="icon ion-checkmark-round balanced"></i></a>
       <div class="item item-divider"> Diabled Item </div>

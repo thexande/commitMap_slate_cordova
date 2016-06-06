@@ -1,0 +1,6 @@
+{
+    "CoreLocation.framework": 1,
+    "Foundation.framework": 1,
+    "QuartzCore.framework": 1,
+    "GLKit.framework": 1
+}

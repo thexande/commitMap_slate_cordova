@@ -4,7 +4,7 @@
   <description>
 
     </description>
-  <author email="amurphy345@gmail.com" href="#">
+  <author email="amurphy345@gmail.com" href="http://www.alexmurphy.me">
       Alexander Murphy
     </author>
   <content src="index.html"/>
@@ -12,7 +12,7 @@
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="android-minSdkVersion" value="15"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
@@ -50,6 +50,7 @@
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
   </platform>
   <platform name="android">
+    <preference name="android-minSdkVersion" value="15"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
     <icon src="resources/android/icon/drawable-hdpi-icon.png" density="hdpi"/>

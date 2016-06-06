@@ -1,17 +1,21 @@
 <ion-view view-title="Select Repos" name="repo-select">
-<ion-nav-buttons side="right">
-    <button class="button button-balanced" ng-click="selectReposToWatch()">
-      Continue
-    </button>
- </ion-nav-buttons>
+    <!-- <div ng-controller="repoListCtrl"> -->
+        <ion-nav-buttons side="right">
+            <button class="button button-balanced" ng-click="selectReposToWatch(reposSelected.ids)">Continue</button>
+        </ion-nav-buttons>
 
-    <ion-content>
-      <div class="list">
-      <form ng-submit="selectReposToWatch()">
-        <ion-checkbox ng-repeat="item in repoList" ng-model="item.id" value="item.id">
-          {{ item.name }}
-        </ion-checkbox>
-      </form>
-      </div>
+        <ion-content>
+            <div class="list">
+                <!-- <form name="repoform" ng-submit="selectReposToWatch(repoform)"> -->
+                    <ion-checkbox ng-repeat="item in repoList" ng-model="reposSelected.ids[item.id]" value="item.id">
+                        {{ item.name }}
+                    </ion-checkbox>
+                    <!-- <input type="hidden" name="selectedRepos" value="{{ reposSelected.ids }}" ng-model="reposSelected"> -->
+                </form>
+                <!-- <pre ng-bind="reposSelected.ids | json"></pre> -->
+            </div>
+
     </ion-content>
+  <!-- </div> -->
+
 </ion-view>

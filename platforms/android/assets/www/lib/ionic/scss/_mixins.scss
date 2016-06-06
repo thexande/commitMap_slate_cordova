@@ -135,7 +135,7 @@
 @mixin checkbox-style($off-border-color, $on-bg-color, $on-border-color) {
   & input:before,
   & .checkbox-icon:before {
-    border-color: $off-border-color;
+    // border-color: $off-border-color;
   }
 
   // what the background looks like when its checked
