@@ -61,7 +61,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
-
+  .state('tab.chats', {
+       url: '/chats',
+       views: {
+         'tab-chats': {
+           templateUrl: 'templates/tab-chats.html',
+           controller: 'ChatsCtrl'
+         }
+       }
+     })
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {
@@ -81,10 +89,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
-  .state('myrepos-detail', {
+  .state('tab.myrepos-detail', {
     url: '/myrepos/:repoId',
     views: {
-      'tab-myreposdetail' : {
+      'tab-myrepos' : {
         templateUrl: 'templates/myrepos-detail.html',
         controller: 'myReposDetailCtrl'
       }

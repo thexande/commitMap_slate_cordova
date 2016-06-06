@@ -2,14 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ReposCtrl', function($scope, Chats) {
-
-
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-})
+.controller('ReposCtrl', function($scope, Chats) {})
 
 .controller('AccountCtrl', function($scope) {
     $scope.settings = {
@@ -64,11 +57,16 @@ angular.module('starter.controllers', [])
 // my Repos controller
 .controller('myReposCtrl', function($scope, $http, $state, reposFactory) {
   $scope.selectedRepos = reposFactory.selectedRepos
-  console.log($scope.selectedRepos);
+
+  $scope.removeRepo = function(repoId){
+    reposFactory.removeRepo(repoId)
+  }
 })
 // myRepos detail controller
-.controller('myReposDetailCtrl', function($scope, $http, $state, reposFactory){
-  console.log("detail ctrl");
+.controller('myReposDetailCtrl', function($scope, $http, $stateParams, reposFactory){
+  // fetch repo from
+  $scope.repo = reposFactory.getRepo($stateParams.repoId)
+
 })
 // repo listing controller
 .controller('repoListCtrl', function($scope, $http, $state, reposFactory) {
