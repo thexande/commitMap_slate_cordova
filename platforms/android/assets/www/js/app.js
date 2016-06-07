@@ -61,17 +61,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
-
-
   .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
+       url: '/chats',
+       views: {
+         'tab-chats': {
+           templateUrl: 'templates/tab-chats.html',
+           controller: 'ChatsCtrl'
+         }
+       }
+     })
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {
@@ -82,6 +80,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+  .state('tab.myrepos', {
+    url: '/myrepos',
+    views: {
+      'tab-myrepos': {
+        templateUrl: 'templates/tab-myrepos.html',
+        controller: 'myReposCtrl'
+      }
+    }
+  })
+  .state('tab.myrepos-detail', {
+    url: '/myrepos/:repoId',
+    views: {
+      'tab-myrepos' : {
+        templateUrl: 'templates/myrepos-detail.html',
+        controller: 'myReposDetailCtrl'
+      }
+    }
+  })
   .state('tab.account', {
     url: '/account',
     views: {
@@ -94,6 +110,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // if none of the above states are matched, use this as the fallback
   // $urlRouterProvider.otherwise('/tab/dash');
-  $urlRouterProvider.otherwise('/repolist')
+  $urlRouterProvider.otherwise('/login')
 
 });

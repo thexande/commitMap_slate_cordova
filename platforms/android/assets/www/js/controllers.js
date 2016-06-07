@@ -2,24 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
-    };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-})
+.controller('ReposCtrl', function($scope, Chats) {})
 
 .controller('AccountCtrl', function($scope) {
     $scope.settings = {
@@ -47,13 +30,12 @@ angular.module('starter.controllers', [])
           alert('code: '    + error.code    + '\n' +
                 'message: ' + error.message + '\n');
       }
-
       navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
 })
 
 
-.controller('loginCtrl', function($scope, $http, $state) {
+.controller('loginCtrl', function($scope, $http, $state, reposFactory) {
     $scope.loginData = {}
         // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
@@ -61,54 +43,59 @@ angular.module('starter.controllers', [])
 
 
         // authenticate with local passport strategy
-        $http.post('http://commitmap.herokuapp.com/localAuth', $scope.loginData)
-            // $http.post('http://localhost:3000/localAuth', $scope.loginData)
-            .success(function(data) {
-                $state.go('repolist')
-            })
-            .error(function(data) {
-                console.log('error' + data);
-                alert('wrong password')
+        // $http.post('http://commitmap.herokuapp.com/localAuth', $scope.loginData)
+           $http.post('http://localhost:3000/localAuth', $scope.loginData)
+            .then((collection) => {
+              console.log(collection);
+              // store userdata inside of factory for access later
+              reposFactory.setUserData(collection.data)
+              $state.go('repolist')
             })
           }
       })
+// my Repos controller
+.controller('myReposCtrl', function($scope, $http, $state, reposFactory) {
+  $scope.selectedRepos = reposFactory.selectedRepos
 
+  $scope.removeRepo = function(repoId){
+    reposFactory.removeRepo(repoId)
+  }
+})
+// myRepos detail controller
+.controller('myReposDetailCtrl', function($scope, $http, $stateParams, reposFactory){
+  // fetch repo from
+  $scope.repo = reposFactory.getRepo($stateParams.repoId)
+
+})
 // repo listing controller
-.controller('repoListCtrl', function($scope, $http, $state) {
+.controller('repoListCtrl', function($scope, $http, $state, reposFactory) {
     $scope.reposSelected = [];
-    $scope.reposSelectedFalse = [];
-        // go to github API and get list of repos
-    $http.get('https://api.github.com/users/thexande/repos')
-        .success(function(data) {
-            $scope.repoList = data;
-            // console.log(data);
-        })
-        .error(function(data) {
-            console.log('error' + data);
-        })
+    $scope.reposIdsSelected = [];
+
+    // factory method to fetch data from github
+    reposFactory.getReposFromGitHub().then(function(response){
+      $scope.repoList = response.data;
+    })
+
         // get list of repos from form
     $scope.selectReposToWatch = function(repoData) {
         // check for truth
         for (var repoId in repoData) {
           if (repoData.hasOwnProperty(repoId)) {
             if(repoData[repoId] === true){
-              $scope.reposSelected.push(parseInt(repoId));
-            } else {
-              $scope.reposSelectedFalse.push(parseInt(repoId));
+              // id of object selected. filter master repo object and return
+              $scope.reposSelected.push($scope.repoList.filter(function(arg){
+                if(parseInt(arg.id) === parseInt(repoId)){
+                  return arg;
+                }
+              })[0])
             }
           }
         }
-        // console.log($scope.reposSelected);
-        // set scope var for repos tab
-        $scope.selectedRepoFilter = $scope.repoList.filter(function(arg){
-          //  console.log($scope.reposSelected.indexOf(arg.id))
-           if($scope.reposSelected.indexOf(arg.id) != -1){
-            //  id exists. push repo object to array for uses
-            return arg;
-           }
-        })
-
-        console.log($scope.selectedRepoFilter);
-        $state.go('tab.chats')
+        // set data in factory.
+        reposFactory.prepareForRepoView($scope.reposSelected);
+        // sync data with backend
+        reposFactory.syncSelectedRepos();
+        $state.go('tab.myrepos')
     }
 });

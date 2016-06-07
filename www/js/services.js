@@ -1,15 +1,26 @@
 angular.module('starter.services', [])
 .factory('reposFactory', function($http){
   return {
+    userData : {},
     selectedRepos : [],
+    setUserData: function(data){
+      this.userData = data;
+      console.log(this.userData);
+    },
+    getUserData: function(){
+      return this.userData;
+    },
     getReposFromGitHub : function() {
         return $http.get('https://api.github.com/users/thexande/repos')
     },
-    syncSelectedRepos : function(repo_id){
+    syncSelectedRepos : function(){
       // logic to query backend and sync selectedRepos
-    },
-    addToWatch : function(repo_id){
-      // logic to query commitmap backend and add webhook for passed repo
+      $http.post('http://127.0.0.1:3000/userWatchedRepos', {
+        access_token : this.userData.bearer_token,
+        selected_repos: this.selectedRepos
+      })
+      .catch((e) => {console.log(e)})
+      .then(() => {console.log("updated in backend")})
     },
     prepareForRepoView : function(reposSelected) {
       this.selectedRepos = reposSelected;

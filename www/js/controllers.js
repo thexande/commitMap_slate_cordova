@@ -35,22 +35,34 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('loginCtrl', function($scope, $http, $state) {
+.controller('loginCtrl', function($scope, $http, $state, $ionicLoading, reposFactory) {
+      $scope.show = function() {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="ios"></ion-spinner>'
+      })
+    }
+    $scope.hide = function(){
+      $ionicLoading.hide()
+    }
     $scope.loginData = {}
         // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
         console.log('Doing login', $scope.loginData);
-
+        // show loading modal
+        $scope.show();
 
         // authenticate with local passport strategy
         $http.post('http://commitmap.herokuapp.com/localAuth', $scope.loginData)
-            // $http.post('http://localhost:3000/localAuth', $scope.loginData)
-            .success(function(data) {
-                $state.go('repolist')
-            })
-            .error(function(data) {
-                console.log('error' + data);
-                alert('wrong password')
+          //  $http.post('http://localhost:3000/localAuth', $scope.loginData)
+           .catch((e) => {
+             $scope.hide()
+             alert("incorrect login data")})
+          .then((collection) => {
+            $scope.hide()
+              console.log(collection);
+              // store userdata inside of factory for access later
+              reposFactory.setUserData(collection.data)
+              $state.go('repolist')
             })
           }
       })
@@ -95,6 +107,8 @@ angular.module('starter.controllers', [])
         }
         // set data in factory.
         reposFactory.prepareForRepoView($scope.reposSelected);
+        // sync data with backend
+        reposFactory.syncSelectedRepos();
         $state.go('tab.myrepos')
     }
 });
