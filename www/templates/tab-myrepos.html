@@ -1,4 +1,7 @@
 <ion-view view-title="My Repositories">
+  <ion-nav-buttons side="right">
+      <button class="button button-balanced" ng-click="addRepo()">Add Repo</button>
+  </ion-nav-buttons>
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="repo in selectedRepos" type="item-text-wrap" href="#/tab/myrepos/{{repo.id}}">

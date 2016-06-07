@@ -52,14 +52,13 @@ angular.module('starter.controllers', [])
         $scope.show();
 
         // authenticate with local passport strategy
-        $http.post('http://commitmap.herokuapp.com/localAuth', $scope.loginData)
-          //  $http.post('http://localhost:3000/localAuth', $scope.loginData)
-           .catch((e) => {
+        // $http.post('http://commitmap.herokuapp.com/localAuth', $scope.loginData)
+           $http.post('http://localhost:3000/localAuth', $scope.loginData)
+           .catch(function(e) {
              $scope.hide()
              alert("incorrect login data")})
-          .then((collection) => {
-            $scope.hide()
-              console.log(collection);
+          .then(function(collection){
+              $scope.hide()
               // store userdata inside of factory for access later
               reposFactory.setUserData(collection.data)
               $state.go('repolist')
@@ -73,6 +72,9 @@ angular.module('starter.controllers', [])
   $scope.removeRepo = function(repoId){
     reposFactory.removeRepo(repoId)
   }
+  $scope.addRepo = function() {
+    $state.go('repolist')
+  }
 })
 // myRepos detail controller
 .controller('myReposDetailCtrl', function($scope, $http, $stateParams, reposFactory){
@@ -83,29 +85,48 @@ angular.module('starter.controllers', [])
 // repo listing controller
 .controller('repoListCtrl', function($scope, $http, $state, reposFactory) {
     $scope.reposSelected = [];
-    $scope.reposIdsSelected = [];
+    $scope.reposSelected['selected_ids'] = [];
+
 
     // factory method to fetch data from github
     reposFactory.getReposFromGitHub().then(function(response){
       $scope.repoList = response.data;
     })
+    // get all index method
+    $scope.getAllIndexes = function(arr, val) {
+    var indexes = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        indexes.push(i);
+    }
+      return indexes;
+    }
 
         // get list of repos from form
     $scope.selectReposToWatch = function(repoData) {
         // check for truth
         for (var repoId in repoData) {
           if (repoData.hasOwnProperty(repoId)) {
+            // console.log(Object.keys($scope.reposSelected).indexOf(repoId.toString()));
             if(repoData[repoId] === true){
-              // id of object selected. filter master repo object and return
-              $scope.reposSelected.push($scope.repoList.filter(function(arg){
-                if(parseInt(arg.id) === parseInt(repoId)){
-                  return arg;
-                }
-              })[0])
+              // put selected id in out selected_ids array
+                $scope.reposSelected.selected_ids.push(repoId)
+              // check for index of selected id in destination object, prevent dupes
+              if($scope.getAllIndexes($scope.reposSelected.selected_ids, repoId).length === 1){
+                // id of object selected. filter master repo object and return
+                $scope.reposSelected.push($scope.repoList.filter(function(arg){
+                  if(parseInt(arg.id) === parseInt(repoId)){
+                    return arg;
+                  }
+                })[0])
+              }
             }
           }
         }
         // set data in factory.
+        // remove dupes from selected_ids
+        $scope.reposSelected.selected_ids = $scope.reposSelected.selected_ids.filter(function(elem, index, self) {
+          return index == self.indexOf(elem);
+        })
         reposFactory.prepareForRepoView($scope.reposSelected);
         // sync data with backend
         reposFactory.syncSelectedRepos();

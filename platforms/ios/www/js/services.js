@@ -5,7 +5,6 @@ angular.module('starter.services', [])
     selectedRepos : [],
     setUserData: function(data){
       this.userData = data;
-      console.log(this.userData);
     },
     getUserData: function(){
       return this.userData;
@@ -19,8 +18,9 @@ angular.module('starter.services', [])
         access_token : this.userData.bearer_token,
         selected_repos: this.selectedRepos
       })
-      .catch((e) => {console.log(e)})
-      .then(() => {console.log("updated in backend")})
+      .catch(function(e){console.log(e)})
+      .then(function(collection){
+      })
     },
     prepareForRepoView : function(reposSelected) {
       this.selectedRepos = reposSelected;
